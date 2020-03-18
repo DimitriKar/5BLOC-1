@@ -1,0 +1,20 @@
+dapp/node_modules
+dapp/dist
+
+# local env files
+dapp/.env.local
+dapp/.env.*.local
+
+# Log files
+dapp/npm-debug.log*
+dapp/yarn-debug.log*
+dapp/yarn-error.log*
+
+# Editor directories and files
+dapp/.idea
+dapp/.vscode
+dapp/*.suo
+dapp/*.ntvs*
+dapp/*.njsproj
+dapp/*.sln
+dapp/*.sw?

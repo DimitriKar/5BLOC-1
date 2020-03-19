@@ -12,17 +12,16 @@ contract Ballot {
   using SafeMath for uint256;
   
     struct Voter {
-        uint weight; // weight is accumulated by delegation
-        bool voted;  // if true, that person already voted
-        address delegate; // person delegated to
-        uint vote;   // index of the voted proposal
+        uint weight;
+        bool voted;
+        address delegate;
+        uint vote;
+        bool isCreated;
     }
 
     struct Proposal {
-        // If you can limit the length to a certain number of bytes, 
-        // always use one of bytes1 to bytes32 because they are much cheaper
-        string name;   // short name (up to 32 bytes)
-        uint voteCount; // number of accumulated votes
+        string name;
+        uint voteCount;
     }
 
     address public chairperson;
@@ -69,6 +68,7 @@ contract Ballot {
         );
         require(voters[_voter].weight == 0);
         voters[_voter].weight = voters[_voter].weight.add(1);
+        voters[_voter].isCreated = true;
     }
 
     /**
@@ -105,7 +105,7 @@ contract Ballot {
      * @param _proposal index of proposal in the proposals array
      */
     function vote(uint _proposal) public {
-        require(dateEnd >= now);
+        require(dateEnd >= now, "Already Closed");
         Voter storage sender = voters[msg.sender];
         require(sender.weight != 0, "Has no right to vote");
         require(!sender.voted, "Already voted.");
@@ -118,7 +118,7 @@ contract Ballot {
         proposals[_proposal].voteCount = proposals[_proposal].voteCount.add(sender.weight);
     }
 
-    /** 
+    /**
      * @dev Computes the winning proposal taking all previous votes into account.
      * @return winningProposal_ index of winning proposal in the proposals array
      */
@@ -134,7 +134,7 @@ contract Ballot {
         }
     }
 
-    /** 
+    /**
      * @dev Calls winningProposal() function to get the index of the winner contained in the proposals array and then
      * @return winnerName_ the name of the winner
      */
@@ -143,7 +143,7 @@ contract Ballot {
     {
         winnerName_ = proposals[winningProposal()].name;
     }
-    
+
     /**
      * @dev Calls alreadyVote() function verify if a voter as already voter
      * @return alreadyVote_
@@ -153,13 +153,24 @@ contract Ballot {
         Voter storage sender = voters[msg.sender];
         alreadyVote_ = sender.voted;
     }
-    
+
     /**
-     * @dev Calls getProposals() function that return all proposals
-     * @return proposals
+     * @dev Calls getProposalList() function that return all proposals
      */
-    function getProposals() public view returns(Proposal[])
+    function getProposalList() public view returns(Proposal[] memory)
     {
-        return (proposals);
+        uint length = proposals.length;
+        Proposal[] memory listProposal = new Proposal[](length);
+        for (uint i = 0; i < length; i++) {
+            Proposal storage item = proposals[i];
+            listProposal[i] = item;
+        }
+        return listProposal;
+    }
+
+    function getVoter() public view returns (Voter memory)
+    {
+        require(voters[msg.sender].isCreated, "Voter doesn't exist");
+        return voters[msg.sender];
     }
 }

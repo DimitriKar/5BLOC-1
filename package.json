@@ -1,0 +1,24 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "5BLOC",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esquimor/5BLOC.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Esquimor/5BLOC/issues"
+  },
+  "homepage": "https://github.com/Esquimor/5BLOC#readme",
+  "dependencies": {
+    "web3": "^1.2.6"
+  }
+}

@@ -153,4 +153,13 @@ contract Ballot {
         Voter storage sender = voters[msg.sender];
         alreadyVote_ = sender.voted;
     }
+    
+    /**
+     * @dev Calls getProposals() function that return all proposals
+     * @return proposals
+     */
+    function getProposals() public view returns(Proposal[])
+    {
+        return (proposals);
+    }
 }

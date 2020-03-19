@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head><meta charset="UTF-8">
+    <title>5 BLOCK</title>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  </head>
+  <body>
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+    <script>
+      const ABI = [
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "vote",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "proposals",
+		"outputs": [
+			{
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"name": "voteCount",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "chairperson",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			}
+		],
+		"name": "delegate",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "winningProposal",
+		"outputs": [
+			{
+				"name": "winningProposal_",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "dateEnd",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "alreadyVote",
+		"outputs": [
+			{
+				"name": "alreadyVote_",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_voter",
+				"type": "address"
+			}
+		],
+		"name": "giveRightToVote",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "voters",
+		"outputs": [
+			{
+				"name": "weight",
+				"type": "uint256"
+			},
+			{
+				"name": "voted",
+				"type": "bool"
+			},
+			{
+				"name": "delegate",
+				"type": "address"
+			},
+			{
+				"name": "vote",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "winnerName",
+		"outputs": [
+			{
+				"name": "winnerName_",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_proposalNames",
+				"type": "string[]"
+			},
+			{
+				"name": "_dateEnd",
+				"type": "uint32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+]
+      let contract;
+      let web3js;
+
+      function startApp() {
+        var address = "0x1fD86Abf67F29830683A80249F6036b98247Db7D";
+        contract = new web3js.eth.Contract(ABI, address);
+        
+        console.log(contract)
+        getChairperson()
+            .then(e => console.log(e));
+      }
+
+      function getChairperson() {
+        return contract.methods.chairperson().call()
+      }
+
+      function alreadyVote() {
+        return contract.methods.alreadyVote().call();
+      }
+
+      function getDateEnd() {
+        return contract.methods.dateEnd().call();
+      }
+
+      function delegate(address) {
+        return contract.methods.delegate(address).call();
+      }
+
+      function giveRightToVote(address) {
+        return contract.methods.giveRightToVote(address).call();
+      }
+
+      function getProposal(id) {
+        return contract.methods.proposals(id).call();
+      }
+
+      function vote(id) {
+        return contract.methods.vote(id).call();
+      }
+
+      function voter(address) {
+        return contract.methods.voters(address).call();
+      }
+
+      function winnerName() {
+        return contract.methods.winnerName().call();
+      }
+
+      function winningProposal() {
+        return contract.methods.winningProposal().call();
+      }
+
+      window.addEventListener('load', function() {
+
+        // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+        if (typeof web3 !== 'undefined') {
+          // Use Mist/MetaMask's provider
+          web3js = new Web3(web3.currentProvider);
+        } else {
+          // Handle the case where the user doesn't have MetaMask installed
+          // Probably show them a message prompting them to install MetaMask
+          web3js = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+        }
+
+        // Now you can start your app & access web3 freely:
+        startApp()
+
+      })
+    </script>
+  </body>
+</html>

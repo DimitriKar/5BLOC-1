@@ -37,15 +37,15 @@ contract Ballot {
      * @param _proposalNames names of proposals
      */
     constructor(string[] memory _proposalNames, uint32 _dateEnd) public {
+        require(
+            _proposalNames.length != 0,
+            "No proposal names"
+        );
         chairperson = msg.sender;
         voters[chairperson].weight = voters[chairperson].weight.add(1);
         dateEnd = _dateEnd;
-        
 
         for (uint i = 0; i < _proposalNames.length; i++) {
-            // 'Proposal({...})' creates a temporary
-            // Proposal object and 'proposals.push(...)'
-            // appends it to the end of 'proposals'.
             proposals.push(Proposal({
                 name: _proposalNames[i],
                 voteCount: 0
@@ -168,9 +168,13 @@ contract Ballot {
         return listProposal;
     }
 
-    function getVoter() public view returns (Voter memory)
+    function getVoter(address _address) public view returns (Voter memory)
     {
-        require(voters[msg.sender].isCreated, "Voter doesn't exist");
-        return voters[msg.sender];
+        return voters[_address];
+    }
+
+    function isChair() public view returns (bool)
+    {
+        return msg.sender == chairperson;
     }
 }

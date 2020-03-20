@@ -1,8 +1,8 @@
 <template>
-  <div class="Delegate">
-    <label>Déléguer son vote</label>
-    <input v-model="delegate" class="Delegate-input" />
-    <button @click="delegateVote" class="Delegate-button">Déléguer son vote</button>
+  <div class="Voter">
+    <label>Adresse du votant</label>
+    <input v-model="voter" class="Voter-input" />
+    <button @click="addVoter" class="Voter-button">Ajouter un votant</button>
   </div>
 </template>
 
@@ -10,17 +10,17 @@
 "use strict";
 
 export default {
-  name: "Delegate",
+  name: "Voter",
   data() {
     return {
-      delegate: ""
+      voter: ""
     };
   },
   methods: {
-    delegateVote() {
-      if (this.delegate === "") return;
-      this.$store.dispatch("delegateVote", this.delegate).then(() => {
-        this.delegate = "";
+    addVoter() {
+      if (this.voter === "") return;
+      this.$store.dispatch("addVoter", this.voter).then(() => {
+        this.voter = "";
       });
     }
   }
@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="scss">
-.Delegate {
+.Voter {
   display: flex;
   flex-direction: column;
   justify-content: center;

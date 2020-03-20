@@ -102,6 +102,11 @@ export default [
         internalType: "uint256",
         name: "vote",
         type: "uint256"
+      },
+      {
+        internalType: "bool",
+        name: "isCreated",
+        type: "bool"
       }
     ],
     payable: false,
@@ -227,7 +232,13 @@ export default [
   },
   {
     constant: true,
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address"
+      }
+    ],
     name: "getVoter",
     outputs: [
       {
@@ -251,11 +262,31 @@ export default [
             internalType: "uint256",
             name: "vote",
             type: "uint256"
+          },
+          {
+            internalType: "bool",
+            name: "isCreated",
+            type: "bool"
           }
         ],
         internalType: "struct Ballot.Voter",
         name: "",
         type: "tuple"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "isChair",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool"
       }
     ],
     payable: false,

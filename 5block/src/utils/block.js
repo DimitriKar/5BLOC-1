@@ -27,17 +27,16 @@ const getWeb3js = async () => {
   }
   // Fallback to localhost; use dev console port by default...
   else {
-    const provider = new Web3.providers.HttpProvider("http://127.0.0.1:9545");
-    const web3 = new Web3(provider);
-    console.log("No web3 instance injected, using Local web3.");
-    return web3;
+    store.dispatch("notMetaMask");
+    return null;
   }
 };
 
 const startApp = async () => {
   web3js = await getWeb3js();
+  if (web3js === null) return;
 
-  let address = "0x7F6fe9bfFc3e48F3415fa139DA42565EB5Cfab67";
+  let address = "0xaCA44E3cbCb1b3c066d61ce14ee4dD970892e32B";
   contract = new web3js.eth.Contract(ABI, address);
 
   userAccount = await web3js.eth.getAccounts()[0];
@@ -65,11 +64,11 @@ const getDateEnd = () => {
 };
 
 const delegate = address => {
-  return contract.methods.delegate(address).call();
+  return contract.methods.delegate(address).send({ from: userAccount });
 };
 
 const giveRightToVote = address => {
-  return contract.methods.giveRightToVote(address).call();
+  return contract.methods.giveRightToVote(address).send({ from: userAccount });
 };
 
 const getProposal = id => {
@@ -80,8 +79,8 @@ const getProposals = () => {
   return contract.methods.getProposalList().call();
 };
 
-const vote = id => {
-  return contract.methods.vote(id).call();
+const vote = pos => {
+  return contract.methods.vote(pos).send({ from: userAccount });
 };
 
 const voter = address => {
@@ -97,7 +96,11 @@ const winningProposal = () => {
 };
 
 const getVoter = () => {
-  return contract.methods.getVoter().call();
+  return contract.methods.getVoter(userAccount).call();
+};
+
+const isChair = () => {
+  return contract.methods.isChair().call();
 };
 
 export {
@@ -115,5 +118,6 @@ export {
   voter,
   winnerName,
   winningProposal,
-  getVoter
+  getVoter,
+  isChair
 };

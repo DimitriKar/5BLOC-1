@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Delegate from "../views/Delegate.vue";
+import Voter from "../views/Voter.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/delegate",
     name: "Delegate",
     component: Delegate
+  },
+  {
+    path: "/voter",
+    name: "Voter",
+    component: Voter
   }
 ];
 

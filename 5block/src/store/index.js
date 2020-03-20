@@ -11,7 +11,8 @@ import {
   userAccount,
   giveRightToVote,
   isChair,
-  delegate
+  delegate,
+  getDateEnd
 } from "@/utils/block";
 
 Vue.use(Vuex);
@@ -24,7 +25,8 @@ export default new Vuex.Store({
     voter: {},
     chairPerson: "",
     error: false,
-    isChair: false
+    isChair: false,
+    dateEnd: 0
   },
   getters: {
     loading: state => state.loading,
@@ -42,30 +44,35 @@ export default new Vuex.Store({
       );
     },
     error: state => state.error,
-    userAccount: () => userAccount
+    userAccount: () => userAccount,
+    dateEnd: state => state.dateEnd
   },
   actions: {
     init({ commit }) {
       getProposals().then(proposals => {
         getChairperson().then(chairPerson => {
           isChair().then(isChair => {
-            getVoter()
-              .then(voter => {
-                commit(types.SET_INIT, {
-                  proposals,
-                  voter,
-                  chairPerson,
-                  isChair
+            getDateEnd().then(dateEnd => {
+              getVoter()
+                .then(voter => {
+                  commit(types.SET_INIT, {
+                    proposals,
+                    voter,
+                    chairPerson,
+                    isChair,
+                    dateEnd
+                  });
+                })
+                .catch(() => {
+                  commit(types.SET_INIT, {
+                    proposals,
+                    voter: null,
+                    chairPerson,
+                    isChair,
+                    dateEnd
+                  });
                 });
-              })
-              .catch(() => {
-                commit(types.SET_INIT, {
-                  proposals,
-                  voter: null,
-                  chairPerson,
-                  isChair
-                });
-              });
+            });
           });
         });
       });
@@ -98,8 +105,10 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    [types.SET_INIT](state, { proposals, voter, chairPerson, isChair }) {
-      console.log(voter);
+    [types.SET_INIT](
+      state,
+      { proposals, voter, chairPerson, isChair, dateEnd }
+    ) {
       state.proposals = [];
       proposals.forEach((proposal, index) => {
         state.proposals.push({
@@ -111,6 +120,7 @@ export default new Vuex.Store({
       state.chairPerson = chairPerson;
       state.isChair = isChair;
       state.loading = false;
+      state.dateEnd = new Date(parseInt(dateEnd) * 1000);
       if (voter === null) {
         state.voter = null;
       } else {

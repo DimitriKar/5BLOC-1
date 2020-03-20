@@ -2,7 +2,8 @@
   <div id="app">
     <template v-if="!noMetaMask">
       <template v-if="!loading">
-        <div id="nav">
+        <div class="App-date">Fin du vote :{{ dateFormated }}</div>
+        <div id="nav" class="App-nav">
           <router-link to="/">Vote</router-link>
           <router-link v-if="canVote" to="/delegate">Délégation</router-link>
           <router-link v-if="isChair" to="/voter">Ajouter un votant</router-link>
@@ -33,8 +34,12 @@ export default {
       noMetaMask: "noMetaMask",
       error: "error",
       isChair: "isChair",
-      canVote: "canVote"
-    })
+      canVote: "canVote",
+      dateEnd: "dateEnd"
+    }),
+    dateFormated() {
+      return `${this.dateEnd.getDate()}/${this.dateEnd.getMonth()}/${this.dateEnd.getFullYear()}`;
+    }
   }
 };
 </script>
@@ -48,6 +53,12 @@ export default {
   }
 }
 .App {
+  &-date {
+    text-align: center;
+  }
+  &-nav {
+    margin: 0.5rem 0;
+  }
   &-error {
     padding: 0.5rem;
     color: red;

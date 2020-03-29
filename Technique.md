@@ -16,15 +16,15 @@ Pour installer le projet, il faut soit le récupérer sur [github](https://githu
 
  Pour lancer la blockchain, on doit créer un projet sur ganache. En cliquant sur "New Workspace"
 
-![Ganache_Start](D:\Course\5BLOCK\project\images\Ganache_Start.PNG)
+![Ganache_Start](.\images\Ganache_Start.PNG)
 
 Puis on ajoute le projet, en cliquant sur "Add project".
 
-![Ganache_Workspace](D:\Course\5BLOCK\project\images\Ganache_Workspace.PNG)
+![Ganache_Workspace](.\images\Ganache_Workspace.PNG)
 
 Pour ce projet, on va utiliser le port 8545
 
-![Ganache_Server](D:\Course\5BLOCK\project\images\Ganache_Server.PNG)
+![Ganache_Server](.\images\Ganache_Server.PNG)
 
 Ganache est maintenant prêt. On peut cliquer sur "Save workspace".
 
@@ -41,7 +41,7 @@ truffle migrate --network ganache
 
 On va pouvoir récupérer l'adresse du contrat.
 
-![Ganache_Contract](D:\Course\5BLOCK\project\images\Ganache_Contract.PNG)
+![Ganache_Contract](.\images\Ganache_Contract.PNG)
 
  Cette adresse doit être mis dans ./5block/.env
 

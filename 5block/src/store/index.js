@@ -98,7 +98,9 @@ export default new Vuex.Store({
     },
     delegateVote({ commit }, address) {
       return delegate(address)
-        .then(() => Promise.resolve())
+        .then(() => {
+          commit(types.SET_DELEGATE);
+        })
         .catch(() => {
           commit(types.ERROR_VOTE);
         });
@@ -139,6 +141,9 @@ export default new Vuex.Store({
     [types.SET_VOTE](state, index) {
       state.proposals[index].voteCount =
         state.proposals[index].voteCount + state.voter.weight;
+      state.voter.voted = true;
+    },
+    [types.SET_DELEGATE](state) {
       state.voter.voted = true;
     },
     [types.ERROR_VOTE](state) {

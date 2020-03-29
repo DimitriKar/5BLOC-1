@@ -12253,12 +12253,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xaCA44E3cbCb1b3c066d61ce14ee4dD970892e32B",
-      "transactionHash": "0x9c80da6db65c80efde50c52761a810d4f5e8ea0e08c42a1cd1c21041899172cd"
+      "address": "0x0F3d87E7f90b3bC54aD157f189eB72Ba52243bB7",
+      "transactionHash": "0x1c8c1e1f160220952410ca9cd864d77498a1e1a83d68396df96f8844a21ea489"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-20T09:45:07.368Z",
+  "updatedAt": "2020-03-29T13:23:33.538Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Implements voting process along with vote delegation",

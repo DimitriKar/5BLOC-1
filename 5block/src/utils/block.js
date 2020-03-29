@@ -36,7 +36,7 @@ const startApp = async () => {
   web3js = await getWeb3js();
   if (web3js === null) return;
 
-  let address = "0xaCA44E3cbCb1b3c066d61ce14ee4dD970892e32B";
+  let address = process.env.VUE_APP_CONTRAT;
   contract = new web3js.eth.Contract(ABI, address);
 
   userAccount = await web3js.eth.getAccounts()[0];
